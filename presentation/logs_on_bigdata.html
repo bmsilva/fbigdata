@@ -42,18 +42,16 @@ to try was send the logs clickstrem from multiple web server through
 
 <img style="width:50%" src="https://raw.githubusercontent.com/bmsilva/fbigdata/master/presentation/img/kafka_spark_hbase.png">
 
-[NOTE]: Get a better diagram
-
 ---
 
 # Devops Tools
 
-For the following slides, I'm going to use this tools:
+For the following slides, I'm going to use these tools:
 
  - [Invoke](http://www.pyinvoke.org) to create simple commands ([fabric](http://www.fabfile.org/) like)
  - [Ansible](https://www.ansible.com) for host config/setup automation 
 
-Everything is on the `fdevops`     directory.
+Everything is under the `fdevops`     directory.
 
 ---
 
@@ -123,7 +121,7 @@ $ invoke prd.cdh_start_proxy
 $ invoke prd.cdh_start_chrome
 ```
 
-At this moment you should have a Chrome browser capable to connect to Cloudera
+The last command launches a Chrome browser able to connect to Cloudera
 Director, for this you need to go to the EC2 Console, and search for the private
 IP of the machine.
 
@@ -153,7 +151,7 @@ Time to setup and run the Cluster
 
 1. Configured 'cdh-cluster' as the cluster name
 2. Chose to install all services
-3. For the instance groups I chose only 5 worker instance
+3. For the instance groups "workers" I chose only 5 instances
 4. Configure the instance templates for the instance groups
 
 ---
@@ -187,7 +185,7 @@ All instances are up and running
 
 # Logstash
 
-To start let's create an instance with Logstash installed. After that we can
+To start, let's create an instance with Logstash installed. After that we can
 send logs into Logstash and then connect it with Kafka.
 
 ```bash
@@ -247,7 +245,7 @@ def main():
 
 For the `input` we use the `pipe` plugin to run our python script
 
-Because we already have a sample logs already shaped to our needs, we don't need
+Because we already have log sample shaped to our needs, we don't need
 to configure filters, and we just send the log lines directly to kafka.
 
 
@@ -279,7 +277,7 @@ output {
 
 # Setup Logstash - nuisances
 
-Logstash output plugin is not compatible with the Kafka version instaled on
+The Logstash output plugin is not compatible with the Kafka version instaled on
 the Cloudera Cluster.
 
 To solve this I needed to downgrade `logstash-output-kafka` plugin to version 4.0.4
@@ -314,7 +312,7 @@ TASK [srv-log-setup : Start logstash] ******************************************
 
 # Kafka
 
-To check if the logs are being sent to Kafka we can start a consumer in the
+To check if the logs are be sent to Kafka we can start a consumer in the
 shell with the command:
 
 ```bash
