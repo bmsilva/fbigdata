@@ -1,0 +1,28 @@
+---
+- name: Create an EC2 instance
+  local_action:
+    module: ec2
+    region: "{{ aws_region }}"
+    zone: "{{ aws_zone }}"
+    key_name: "{{ key_name }}"
+    group_id: 
+      - sg-6fddc60a
+      - sg-d8ddc6bd
+      - sg-1dd0cb78
+    instance_type: "{{ instance_type }}"
+    image: "{{ ami_id }}"
+    wait: yes
+    vpc_subnet_id: "{{ subnet_1_id }}"
+    assign_public_ip: yes
+    instance_tags:
+      Name: "{{ instance_tag_name }}"
+      env: "{{ instance_tag_environment }}"
+    exact_count: 1
+    count_tag:
+      Name: "{{ instance_tag_name }}"
+      env: "{{ instance_tag_environment }}"
+    user_data: |
+      #!/bin/bash
+      sudo apt update
+      sudo apt install -y python
+  register: ec2_out

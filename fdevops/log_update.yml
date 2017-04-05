@@ -1,0 +1,9 @@
+---
+- name: Logstash Setup
+  hosts: "{{ instance_hostname }}"
+  gather_facts: yes
+  remote_user: ubuntu
+  roles:
+    - srv-log-apt
+    - srv-pyenv
+    - srv-log-setup

@@ -1,0 +1,30 @@
+---
+- name: Install pyenv
+  git:
+    repo: "https://github.com/yyuu/pyenv.git"
+    dest: "/home/{{ remote_user }}/.pyenv"
+    version: master
+  tags:
+    - srv-pyenv
+
+- name: Set bash_aliases
+  template:
+    src: ../files/bash_aliases
+    dest: "/home/{{ remote_user }}/.bash_aliases"
+  tags:
+    - srv-pyenv
+
+- name: Set .profile
+  template:
+    src: ../files/profile
+    dest: "/home/{{ remote_user }}/.profile"
+  tags:
+    - srv-pyenv
+
+- name: Install python
+  shell: "/home/{{ remote_user }}/.pyenv/bin/pyenv install {{ python_version }}"
+  args:
+    chdir: "/home/{{ remote_user }}"
+    creates: ".pyenv/versions/{{ python_version }}/bin/python"
+  tags:
+    - srv-pyenv

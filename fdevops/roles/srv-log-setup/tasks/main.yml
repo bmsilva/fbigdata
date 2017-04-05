@@ -1,0 +1,54 @@
+---
+- name: Copy ctlogs
+  unarchive:
+    src: files/ctlogs.tgz
+    dest: "/home/{{ remote_user }}/"
+    creates: "/home/{{ remote_user }}/ctlogs-.1438663216674"
+  tags:
+    - srv-log-setup
+
+- name: Copy gen_logs.py
+  template:
+    src: ../files/gen_logs.py
+    dest: "/home/{{ remote_user }}/gen_logs.py"
+    mode: "u+rx,g+rx,o+rx"
+  tags:
+    - srv-log-setup
+
+- name: Copy clickstream.conf
+  template:
+    src: ../files/clickstream.conf
+    dest: /etc/logstash/conf.d/clickstream.conf
+  become: yes
+  tags:
+    - srv-log-setup
+
+- name: Stop logstash to remove plugin
+  systemd:
+    name: logstash
+    state: stopped
+    daemon_reload: yes
+  become: yes
+  tags:
+    - srv-log-setup
+
+- name: Remove logstash-output-kafka plugin
+  shell: /usr/share/logstash/bin/logstash-plugin remove logstash-output-kafka
+  become: yes
+  tags:
+    - srv-log-setup
+
+- name: Install logstash-output-kafka plugin version 4.0.4
+  shell: /usr/share/logstash/bin/logstash-plugin install --version 4.0.4 logstash-output-kafka
+  become: yes
+  tags:
+    - srv-log-setup
+
+- name: Start logstash
+  systemd:
+    name: logstash
+    state: started
+    daemon_reload: yes
+  become: yes
+  tags:
+    - srv-log-setup

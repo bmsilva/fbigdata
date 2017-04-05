@@ -1,0 +1,8 @@
+---
+- name: Update Server
+  hosts: "{{ instance_hostname }}"
+  gather_facts: yes
+  remote_user: ubuntu
+  roles:
+    - srv-cdh-apt
+    - srv-cdh-setup

@@ -1,0 +1,9 @@
+---
+- name: HBase Setup
+  hosts: "{{ instance_hostname }}"
+  gather_facts: yes
+  remote_user: ec2-user
+  roles:
+    - srv-hbase-yum
+    - srv-pyenv
+    - srv-hbase-setup

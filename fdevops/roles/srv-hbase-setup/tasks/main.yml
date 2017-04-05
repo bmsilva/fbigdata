@@ -1,0 +1,8 @@
+---
+- name: Copy clickstream_hbase.py
+  template:
+    src: ../files/clickstream_hbase.py
+    dest: "/home/{{ remote_user }}/clickstream_hbase.py"
+    mode: "u+rx,g+rx,o+rx"
+  tags:
+    - srv-hbase-setup

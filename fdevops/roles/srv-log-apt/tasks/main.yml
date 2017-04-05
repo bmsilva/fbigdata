@@ -1,0 +1,50 @@
+---
+- name: Setup logstash repo key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+  become: yes
+  tags:
+    - apt
+
+- name: Setup logstash repo
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+    state: present
+  become: yes
+  tags:
+    - apt
+
+- name: Apt Update
+  apt:
+    update_cache: yes
+  become: yes
+  changed_when: no
+
+- name: Apt install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  with_items:
+    - build-essential
+    - libbz2-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - libssl-dev
+    - unzip
+    - apt-transport-https
+    - openjdk-8-jdk
+    - liblog4j2-java
+  tags:
+    - apt
+
+- name: Apt install logstash
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  with_items:
+    - logstash
+  tags:
+    - apt

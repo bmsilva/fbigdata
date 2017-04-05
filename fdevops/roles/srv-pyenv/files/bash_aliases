@@ -1,0 +1,4 @@
+
+PS1="\u@{{ instance_hostname }}:\W \$ "
+
+export PS1

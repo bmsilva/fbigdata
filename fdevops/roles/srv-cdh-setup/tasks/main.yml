@@ -1,0 +1,9 @@
+---
+- name: Restart Cloudera Director Server
+  systemd:
+    name: cloudera-director-server
+    state: restarted
+    daemon_reload: yes
+  become: yes
+  tags:
+    - deploy

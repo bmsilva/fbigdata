@@ -1,0 +1,20 @@
+---
+- name: Yum Update
+  become: yes
+  yum:
+    name: "*"
+    state: latest
+
+- name: Yum required packages
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - "@Development Tools"
+    - zlib-devel
+    - bzip2-devel
+    - readline-devel
+    - sqlite-devel
+    - openssl-devel
